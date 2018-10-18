@@ -14,6 +14,10 @@ public class Partition {
 			while ((a[l_spot]<=a[left]) && (r_spot>=l_spot)) {
 				l_spot++;
 			}
+<<<<<<< HEAD
+=======
+
+>>>>>>> 560f064b1376fca89cc595aebf07b7f91830e2b1
 			while ((a[r_spot]>=a[left]) && (l_spot<=r_spot)) {
 				r_spot--;
 			}
@@ -36,6 +40,7 @@ public class Partition {
 		return selectHelper (a, k, 0, a.length-1);
 	}
 
+<<<<<<< HEAD
 
 	public static int selectHelper (int a[], int k, int left, int right) {
 		int position = k-1;
@@ -82,12 +87,16 @@ public class Partition {
 		}
 		return median;
 	}
+=======
+		}
+>>>>>>> 560f064b1376fca89cc595aebf07b7f91830e2b1
 
 	public static void quicksortKernel (int a[], int left, int right) {
 		// int last = right;
 		int middle;
 		if (left<right) {
 
+<<<<<<< HEAD
 			middle = partition (a,left,right);
 			quicksortKernel (a,left,middle-1);
 			quicksortKernel (a, middle+1,right);
@@ -96,23 +105,89 @@ public class Partition {
 
 	public static void quicksort (int a[]) {
 		quicksortKernel (a,0,a.length-1);
+=======
+		return r_spot;
+	}
+	//
+	//	public static int select (int a[], int n, int k) {
+	//		if(n==1) {
+	//			return a[0];
+	//		}
+	//		int middle = partition(a, 0 , n - 1);//
+	//		for (int i = 0; i<n; i++) {
+	//			System.out.print(a[i] + " ");
+	//		}
+	//		System.out.println("before");	
+	//		System.out.println(middle + " K: "+ k); 
+	//		System.out.println(); 
+	//		
+	//		if(k == middle + 1) {
+	//			return a[middle];
+	//		}
+	//		
+	//		if(k <= middle) {
+	////			for (int i = 0; i<n; i++) {
+	////				System.out.print(a[i] + " ");
+	////			}
+	////			System.out.println();
+	//			
+	//			select(a, middle, k);
+	//		}
+	//		
+	//		if(k >= middle) {
+	//			for (int i = 0; i<n; i++) {
+	//				System.out.print(a[i] + " ");
+	//			}
+	//			System.out.println();
+	//			select(a, middle + 1, k);
+	//		}
+	//		return -1; //added because the syntax requires the return statement s
+	//	}
+
+
+	public static int select (int a[], int k) {
+		return selectHelper (a, k, 0, a.length-1);
+	}
+
+	public static int selectHelper (int a[], int k, int left, int right) {
+		int s = -1;
+		int middle = partition(a,left,a.length-1);
+		if(middle == k - 1) {
+			return a[middle];
+		}
+		else if(middle < k - 1) {
+			return selectHelper(a,k - middle,middle+1, right);
+		}
+		else  {
+			return selectHelper(a,k,0,middle - 1);
+		}
+>>>>>>> 560f064b1376fca89cc595aebf07b7f91830e2b1
 	}
 
 
 	public static void main (String args[]) {
 
 		int [] b = {55,10,71,30,50,60,20,91,90,80}; //even number of elements 
+<<<<<<< HEAD
 		int [] c = {35,10,71,30,50,8, 100}; //odd number of elements
 		int [] c1 = {35,10,30,50,8,90}; 
 		int [] c2 = {35,10,30,50,8,90}; 
 		int p =0;
 		int s = -1;
 		double median = -1;
+=======
+		int [] c = {35,10,71,30,50,8}; //odd number of elements
+		int l = 0;
+		int r = b.length - 1;
+		int p =0;
+		int s = -1;
+>>>>>>> 560f064b1376fca89cc595aebf07b7f91830e2b1
 
 		//p = partition(b,l,r);
 		s = select (b,2);
 
 		System.out.print(s+ "   ");
+<<<<<<< HEAD
 		// for (int i = 0; i<b.length; i++) {
 		// System.out.print(b[i] + " ");
 		// }
@@ -139,6 +214,18 @@ public class Partition {
 		}
 
 
+=======
+//		for (int i = 0; i<b.length; i++) {
+//			System.out.print(b[i] + " ");
+//		}
+//		System.out.println();
+		s = select(c,5);
+		System.out.print(s+ "    ");
+//
+//		for (int i = 0; i<c.length; i++) {
+//			System.out.print(c[i] + " ");
+//		}
+>>>>>>> 560f064b1376fca89cc595aebf07b7f91830e2b1
 
 
 
@@ -148,4 +235,9 @@ public class Partition {
 
 
 
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 560f064b1376fca89cc595aebf07b7f91830e2b1
