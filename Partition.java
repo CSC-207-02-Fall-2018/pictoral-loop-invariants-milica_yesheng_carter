@@ -16,25 +16,26 @@ public class Partition {
 		the left and right side are not in order. 
 	*/
 	public static int partition (int a[], int left, int right) {
-		int l_spot = 1;					//position of first un-partitioned element
-		int r_spot = a.length - 1;		//position of last un-partitioned element
-		int temp = 0;					//position for temp
+		int l_spot = left+1;					//position of first un-partitioned element
+		int r_spot = right;		//position of last un-partitioned element
+		int temp;					//position for temp
 
 		
-		while (l_spot < r_spot) {
-			//if first un-partitioned element is smaller than pivot and 
-			//the last un-partitioned element is bigger or equal to 
-			//first un-partitioned element, then first un-partitioned element
-			//moved to down
-			while ((a[l_spot]<=a[left]) && (r_spot>=l_spot)) {
-				l_spot++;
-			}
-			//if the last un-partitioned element is greater than pivot and 
-			//the first un-partitioned element is smaller or equal to 
-			//last un-partitioned element, then position of last un-partitioned element 
+		while (l_spot <= r_spot) {
+	
+			//if the first un-partitioned element is smaller or equal to 
+			//last un-partitioned element and the last un-partitioned element
+			//is greater than pivot then position of last un-partitioned element 
 			//moved to up 
-			while ((a[r_spot]>=a[left]) && (l_spot<=r_spot)) {
+			while ((l_spot<=r_spot)&&(a[r_spot]>=a[left])) {
 				r_spot--;
+			}
+			//if the last un-partitioned element is bigger or equal to 
+			//first un-partitioned element, and first un-partitioned 
+			//element is smaller than pivot then first un-partitioned element
+			//moved to down
+			while ((r_spot>=l_spot) && (a[l_spot]<=a[left])) {
+				l_spot++;
 			}
 			
 			//swap the first and last un-partitioned elements, when 
@@ -69,7 +70,7 @@ public class Partition {
 	
 
 	/**
-	 * @param a			an array of integers
+	 * @param a			an array of integers/ none empty 
 	 * @param k			an integer, 0 <= k <= a.length-1
 	 * @return			the kth smallest element in a
 	 */
@@ -81,7 +82,7 @@ public class Partition {
 
 
 	/**
-	 * @param a			an array of integers
+	 * @param a			an array of integers, none empty 
 	 * @param k			an integer, 0 < k <= a.length-1
 	 * @param left		0, the position of the first element (pivot) in a
 	 * @param right		(a.length -1) the position of the last element in a
@@ -117,87 +118,55 @@ public class Partition {
 		//return the kth smallest element
 		return small;
 	}
-
+	
+	/**
+	 * @param a		  array of integers/ none empty 
+	 * @return		  the median of the integers in the array
+	 */
+//Find the median of the array 
 	public static double median (int a[]) {
 		double median = -1;
 		int pos1 = -1;
 		int pos2 = -1;
-
-		//do the partition for every element in an array so it is sorted out
-		for (int i =0; i<a.length; i++) {
-			partition (a, 0, a.length);
-		}
-		for (int i = 0; i<a.length; i++) {
-			System.out.print(a[i] + " ");
-		}
+		//if the array is odd, then the median is the (half of the length)+1 smallest element in
+		//the array
 		if (a.length % 2 ==1) {
-			median = a[a.length/2];
+			median = select(a, (a.length/2 +1));
 		}
-		//when there is even number of elements, get the average value of the two in the middle
+		//when there is even number of elements, we find the average of the (half of the length)+1 
+		//smallest element and the (half of the length)+2 smallest elements in the array 
 		else {
-			pos1= a.length / 2;
-			pos2 = pos1-1;
-			median = (a[pos1]+a[pos2])/2.0;
+			pos1= (a.length / 2)+1;
+			pos2 = pos1+1;
+			median = ((select(a, pos1)+ select(a, pos2))/2);
 		}
 		return median;
 	}
 
 
 	public static void quicksortKernel (int a[], int left, int right) {
-		// int last = right;
 		int middle;
 		if (left<right) {
-
 			middle = partition (a,left,right);
-			quicksortKernel (a,left,middle-1);
-			quicksortKernel (a, middle+1,right);
+			partitionPrint(a);
+			if (left < middle-1) {
+				quicksortKernel (a,left,middle-1);
+			}
+			if (middle+1 < right) {
+				quicksortKernel (a, middle+1,right);
+			}
 		}
 	}
 
+
 	public static void quicksort (int a[]) {
 		quicksortKernel (a, 0 , a.length-1);
+		partitionPrint(a);
 	}
-	//
-	//	public static int select (int a[], int n, int k) {
-	//		if(n==1) {
-	//			return a[0];
-	//		}
-	//		int middle = partition(a, 0 , n - 1);//
-	//		for (int i = 0; i<n; i++) {
-	//			System.out.print(a[i] + " ");
-	//		}
-	//		System.out.println("before");	
-	//		System.out.println(middle + " K: "+ k); 
-	//		System.out.println(); 
-	//		
-	//		if(k == middle + 1) {
-	//			return a[middle];
-	//		}
-	//		
-	//		if(k <= middle) {
-	////			for (int i = 0; i<n; i++) {
-	////				System.out.print(a[i] + " ");
-	////			}
-	////			System.out.println();
-	//			
-	//			select(a, middle, k);
-	//		}
-	//		
-	//		if(k >= middle) {
-	//			for (int i = 0; i<n; i++) {
-	//				System.out.print(a[i] + " ");
-	//			}
-	//			System.out.println();
-	//			select(a, middle + 1, k);
-	//		}
-	//		return -1; //added because the syntax requires the return statement s
-	//	}
-
-
 
 	public static void main (String args[]) {
 
-		int [] evenLst = {55,61,71,30,10,50,60,20,91,90,80,55}; //even number of elements, one 
+		int [] evenLst = {55,61,71,55,30,10,50,60,20,91,90,80}; //even number of elements, one 
 																//element is same as pivot
 		int [] oddLst = {35,10,71,30,50,8,100}; //odd number of elements
 		int [] threeLst = {0,1,2}; //three element in ascending order
@@ -211,12 +180,12 @@ public class Partition {
 		int l = 0;
 		int r = evenLst.length - 1;
 
-//		//Testing For Partition
-//		//partition(evenLst, 0, evenLst.length-1); //even number of elements
+		//Testing For Partition
+//		partition(evenLst, 0, evenLst.length-1); //even number of elements
 //		System.out.println("partition for evenLst, even number of elements");
 //		partitionPrint(evenLst);
 //		//partition for evenLst, even number of elements
-//		//55 61 71 30 10 50 60 20 91 90 80 55 
+//		//10 20 50 55 30 55 71 60 61 91 90 80 
 //		
 //		//partition(oddLst, 0, oddLst.length-1);//odd number of elements
 //		System.out.println("partition for oddLst, odd number of elements");
@@ -243,38 +212,31 @@ public class Partition {
 //		//10
 		
 		//Testing For Selection
-		int o = select(oddLst,4);		//middle of odd list 
-		System.out.println("Selection 4th smallest element in the oddLst: "+ o );
+//		int o = select(oddLst,4);		//middle of odd list 
+//		System.out.println("Selection 4th smallest element in the oddLst: "+ o );
+//		//Selection 4th smallest element in the oddLst: 35
+//
+//		int e = select(evenLst,6);		//near the middle of even list
+//		System.out.println("Selection 6th smallest element in the evenLst: "+ e );
+//		//Selection 6th smallest element in the evenLst: 55
+//		
+//		int first=select(oneLst, 1);
+//		System.out.println("Selection 1th smallest element in the oneLst: "+ first );
+//		//Selection 1th smallest element in the oneLst: 10
+		
+		
+		//Test for median:
+//		System.out.println("the median of oddLst is: "+median(oddLst));
+//		//the median of oddLst is: 35.0
+//		System.out.println("the median of evenLst is: "+median(evenLst));
+//		//the median of evenLst is: 60.0
+		
+		quicksort(oddLst);
+		quicksort(evenLst);
+		
+		
+		
 
-		int e = select(evenLst,5);		//near the middle of even list
-		System.out.println("Selection 5th smallest element in the evenLst: "+ e );
-		
-		int first=select(oneLst, 1);
-		System.out.println("Selection 1th smallest element in the oneLst: "+ first );
-		
-		
-		
-		
-//
-//		//p = partition(b,l,r);
-//		s = select (evenLst,2);
-//
-//		System.out.print(s+ "   ");
-//		// for (int i = 0; i<b.length; i++) {
-//		// System.out.print(b[i] + " ");
-//		// }
-//		// System.out.println();
-//
-//		System.out.println(partition (c1,0,6));
-//		s = select(oddLst,5);
-//		System.out.print(s+ "    ");
-//
-//		median = median (oddLst); //testing odd number of elements
-//		System.out.println(); 
-//		System.out.println(median);
-//		median = median (c1); //testing even number of elements
-//		System.out.println(); 
-//		System.out.println(median);
 //
 //		for (int i =0; i<c2.length; i++) {
 //			System.out.print(c2[i] + " ");
