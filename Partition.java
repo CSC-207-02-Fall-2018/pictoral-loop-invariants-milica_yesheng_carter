@@ -126,19 +126,21 @@ public class Partition {
 //Find the median of the array 
 	public static double median (int a[]) {
 		double median = -1;
-		int pos1 = -1;
-		int pos2 = -1;
+		double pos1 = -1;
+		double pos2 = -1;
 		//if the array is odd, then the median is the (half of the length)+1 smallest element in
 		//the array
 		if (a.length % 2 ==1) {
-			median = select(a, (a.length/2 +1));
+			median = select(a, (int)(a.length/2 +1));
 		}
 		//when there is even number of elements, we find the average of the (half of the length)+1 
 		//smallest element and the (half of the length)+2 smallest elements in the array 
 		else {
-			pos1= (a.length / 2)+1;
+			pos1= (a.length / 2);
+			System.out.println(pos1);
 			pos2 = pos1+1;
-			median = ((select(a, pos1)+ select(a, pos2))/2);
+			System.out.println(pos2);
+			median = ((double)(select(a, (int)pos1)+ (double)select(a, (int)pos2))/2);
 		}
 		return median;
 	}
@@ -226,10 +228,10 @@ public class Partition {
 		
 		
 		//Test for median:
-//		System.out.println("the median of oddLst is: "+median(oddLst));
-//		//the median of oddLst is: 35.0
-//		System.out.println("the median of evenLst is: "+median(evenLst));
-//		//the median of evenLst is: 60.0
+		System.out.println("the median of oddLst is: "+median(oddLst));
+		//the median of oddLst is: 35.0
+		System.out.println("the median of evenLst is: "+median(evenLst));
+		//the median of evenLst is: 60.0
 		
 		quicksort(oddLst);
 		quicksort(evenLst);
